@@ -1,13 +1,14 @@
-from ultralytics import YOLO
 import cv2
 import numpy as np
+from ultralytics import YOLO
 from final_base import *
 
 # 1. Загрузка модели
-model = YOLO("working-version/runs/detect/train-5/weights/best.pt")
+model = YOLO("C:/Users/User/Desktop/Projects/Projects_Python/Cv_Novum_Data_Augmentation/best.pt")
 
 # 2. Видео
 cap = cv2.VideoCapture("working-version/bread_video.mp4")
+
 
 ret, frame = cap.read()
 if not ret:
@@ -59,7 +60,7 @@ while cap.isOpened():
             for box, tid, conf in zip(boxes, ids, confs):
                 
                 # СТРОГИЙ ФИЛЬТР УВЕРЕННОСТИ 97%
-                if conf < 0.97:
+                if conf < 0.99:
                     continue
                 
                 x1, y1, x2, y2 = map(int, box)
