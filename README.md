@@ -1,27 +1,32 @@
-# Bread Detection System (Novum)
+# Bread Detection System (Claurum)
 
-Real-time bread detection and tracking using YOLOv8 with live camera feed. Includes desktop app (Electron) and data augmentation pipeline.
+Real-time bread detection and tracking using YOLOv8 with live camera feed. Includes desktop app (Electron), data augmentation pipeline, and SGL integration for structured data handling.
 
 ## 📁 Structure
 
 ```
 Bread-Detection-Novum/
-├── final_detect_live.py       # Real-time camera detection
-├── final_detect.py            # Video file detection
-├── final_base.py              # Base utilities
-├── dataAugmentation.py        # Data augmentation
-├── AllOurTransformations.py   # Augmentation transforms
-├── requirements.txt           # Python dependencies
+├── final_detect_live.py        # Real-time camera detection (live webcam inference)
+├── final_detect.py             # Video file inference pipeline
+├── final_base.py               # Core utilities and shared functions
+│
+├── transformation/             # Data processing pipeline
+│   ├── dataAugmentation.py     # Dataset augmentation logic
+│   └── AllOurTransformations.py# Custom transformation functions
+│
+├── requirements.txt            # Python dependencies
 ├── README.md
-├── APP/                       # Electron desktop app
-│   ├── src/                   # React components
-│   ├── electron/              # Electron main process
+│
+├── APP/                        # Electron desktop application
+│   ├── src/                    # Frontend (React components)
+│   ├── electron/               # Electron main process (Node.js backend)
 │   ├── package.json
 │   └── vite.config.js
-└── data/                      # Models
-    ├── best.pt                # Custom detection model
-    ├── yolov8s.pt
-    └── yolov8s-seg.pt
+│
+└── data/                       # Model storage
+    ├── best.pt                 # Custom trained YOLOv8 model
+    ├── yolov8s.pt              # Base YOLOv8 model
+    └── yolov8s-seg.pt          # YOLOv8 segmentation model
 ```
 
 ## 📄 Files
