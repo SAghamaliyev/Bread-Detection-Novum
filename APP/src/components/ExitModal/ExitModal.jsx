@@ -1,9 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function ExitModal({ isOpen, onClose }) {
   const [exitCode, setExitCode] = useState("");
   const [error, setError] = useState(false);
   const [shake, setShake] = useState(false);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 0);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -20,6 +29,12 @@ export default function ExitModal({ isOpen, onClose }) {
       setError(true);
       setShake(true);
       setExitCode("");
+
+      // Focus back instantly
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 0);
+
       // Reset shake after animation finishes
       setTimeout(() => setShake(false), 500);
     }
@@ -47,13 +62,13 @@ export default function ExitModal({ isOpen, onClose }) {
 
         <div className="exit-code-container">
           <input
+            ref={inputRef}
             type="password"
             className={`exit-code-input ${error ? "error" : ""}`}
             placeholder="•••••"
             value={exitCode}
             onChange={handleInputChange}
             onKeyDown={(e) => e.key === "Enter" && handleExitConfirm()}
-            autoFocus
           />
         </div>
 
@@ -71,6 +86,7 @@ export default function ExitModal({ isOpen, onClose }) {
           <button
             className="exit-btn exit-btn-confirm"
             onClick={handleExitConfirm}
+            disabled={!exitCode}
           >
             Confirm Exit
           </button>
