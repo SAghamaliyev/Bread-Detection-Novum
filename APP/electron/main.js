@@ -4,7 +4,7 @@ let forceQuit = false;
 
 const path = require("path");
 // Импортируем функции из твоей БД
-const { getMonthDays, getSummaryStats } = require("../src/db");
+const { getMonthDays, getSummaryStats } = require("../src/db.js");
 
 const isDev = process.env.NODE_ENV === "development" || !app.isPackaged;
 
