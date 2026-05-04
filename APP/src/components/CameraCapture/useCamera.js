@@ -99,48 +99,26 @@ export default function useCamera({ onCapture }) {
     });
   }, [onCapture]);
 
-  useEffect(() => {
-    let mounted = true;
-    async function getDevices() {
-      try {
-        const tempStream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        tempStream.getTracks().forEach((t) => t.stop());
-
-        const all = await navigator.mediaDevices.enumerateDevices();
-        const cameras = all.filter((d) => d.kind === "videoinput");
-        if (!mounted) return;
-
-        setDevices(cameras);
-        if (cameras.length > 0) {
-          const deviceId = cameras[0].deviceId;
-          setSelectedDevice(deviceId);
-
-          const checkRef = setInterval(() => {
-            if (videoRef.current) {
-              clearInterval(checkRef);
-              startCamera(deviceId);
-            }
-          }, 100);
-          setTimeout(() => clearInterval(checkRef), 5000);
-        }
-      } catch (err) {
-        if (mounted) setError("Camera access failed: " + err.message);
-      }
+  const runDetection = useCallback(async () => {
+    setError(null);
+    setMode("live");
+    try {
+      console.log("[Detection] Starting Python script...");
+      await window.electron.runDetection();
+    } catch (err) {
+      console.error("[Detection] Error:", err);
+      setError("Detection failed: " + err.message);
+    } finally {
+      setMode("idle");
     }
-    getDevices();
-    return () => {
-      mounted = false;
-    };
-  }, [startCamera]);
+  }, []);
 
   useEffect(() => {
-    if (mode !== "live") return;
-    const timer = setInterval(() => {
-      capture();
-    }, 3000);
-    return () => clearInterval(timer);
+    // Disable automatic camera device detection for video mode
+  }, []);
+
+  useEffect(() => {
+    // Mock capture disabled for video mode
   }, [mode, capture]);
 
   return {
@@ -156,5 +134,6 @@ export default function useCamera({ onCapture }) {
     setSelectedDevice,
     startCamera,
     stopStream,
+    runDetection,
   };
 }

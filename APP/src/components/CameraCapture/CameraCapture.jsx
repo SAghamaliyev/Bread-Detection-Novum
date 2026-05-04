@@ -19,16 +19,17 @@ export default function CameraCapture({ onCapture }) {
     setSelectedDevice,
     startCamera,
     stopStream,
+    runDetection,
   } = useCamera({ onCapture });
 
   return (
     <div className="camera-card">
       {/* Header */}
       <div className="camera-card-header">
-        <span className="section-label">📷 Camera Feed</span>
+        <span className="section-label">🎬 Video Analysis</span>
         {mode === "live" && (
           <span className="live-badge">
-            <span className="live-dot" /> AUTO-MONITORING (3s)
+            <span className="live-dot" /> PYTHON RUNNING...
           </span>
         )}
       </div>
@@ -74,12 +75,8 @@ export default function CameraCapture({ onCapture }) {
       {/* Action buttons */}
       <div className="camera-actions">
         {mode === "idle" && (
-          <button
-            className="btn btn-primary"
-            onClick={() => startCamera()}
-            disabled={devices.length === 0}
-          >
-            <span className="btn-icon">▶</span> Start Monitoring
+          <button className="btn btn-primary" onClick={() => runDetection()}>
+            <span className="btn-icon">▶</span> Start Detection
           </button>
         )}
 

@@ -1,13 +1,13 @@
 from ultralytics import YOLO
 import cv2
 import numpy as np
-from Writer_To_Base import *
+from final_base import *
 
 # 1. Загрузка модели
-model = YOLO("C:/Users/User/Desktop/Projects/Projects_Python/Cv_Novum_Data_Augmentation/best.pt")
+model = YOLO("working-version/runs/detect/train-5/weights/best.pt")
 
 # 2. Видео
-cap = cv2.VideoCapture("bread_video.mp4")
+cap = cv2.VideoCapture("working-version/bread_video.mp4")
 
 ret, frame = cap.read()
 if not ret:

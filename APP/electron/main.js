@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain, session } = require("electron");
+const { spawn } = require("child_process");
 let forceQuit = false;
 
 const path = require("path");
@@ -67,6 +68,33 @@ ipcMain.handle("get-month-days", async (_, year, month) => {
 
 ipcMain.handle("get-summary-stats", async () => {
   return await getSummaryStats();
+});
+
+ipcMain.handle("run-detection", async () => {
+  return new Promise((resolve, reject) => {
+    const scriptPath = path.join(__dirname, "../../final_detect.py");
+    const pythonProcess = spawn("python", [scriptPath], {
+      cwd: path.join(__dirname, "../../"),
+    });
+
+    pythonProcess.stdout.on("data", (data) => {
+      console.log(`[Python] ${data}`);
+    });
+
+    pythonProcess.stderr.on("data", (data) => {
+      console.error(`[Python Error] ${data}`);
+    });
+
+    pythonProcess.on("close", (code) => {
+      console.log(`[Python] Process exited with code ${code}`);
+      resolve(code);
+    });
+
+    pythonProcess.on("error", (err) => {
+      console.error(`[Python] Failed to start: ${err}`);
+      reject(err);
+    });
+  });
 });
 
 ipcMain.on("confirm-exit", () => {
