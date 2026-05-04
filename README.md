@@ -10,7 +10,7 @@ Bread-Detection-Novum/
 ├── final_detect.py             # Video file inference pipeline
 ├── final_base.py               # Core utilities and shared functions
 │
-├── transformation/             # Data processing pipeline
+├── Transformations/             # Data processing pipeline
 │   ├── dataAugmentation.py     # Dataset augmentation logic
 │   └── AllTransformations.py   # Custom transformation functions
 │
