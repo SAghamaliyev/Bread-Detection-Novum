@@ -1,41 +1,64 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ExitModal({ isOpen, onClose }) {
   const [exitCode, setExitCode] = useState("");
+  const [error, setError] = useState(false);
+  const [shake, setShake] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (isOpen) {
+      setExitCode("");
+      setError(false);
+      setShake(false);
+    }
+  }, [isOpen]);
 
   const handleExitConfirm = () => {
     if (exitCode === "12345") {
       window.electron.confirmExit();
     } else {
-      alert("Incorrect code! Access denied.");
+      setError(true);
+      setShake(true);
       setExitCode("");
+      // Reset shake after animation finishes
+      setTimeout(() => setShake(false), 500);
     }
+  };
+
+  const handleInputChange = (e) => {
+    setExitCode(e.target.value);
+    if (error) setError(false);
   };
 
   const handleExitCancel = () => {
     onClose();
     setExitCode("");
+    setError(false);
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="exit-modal-overlay">
-      <div className="exit-modal">
+      <div className={`exit-modal ${shake ? "shake" : ""}`}>
         <span className="exit-modal-icon">🔒</span>
         <h2>Security Verification</h2>
-        <p>Please enter 12345 to exit the application.</p>
+        <p>Please enter 12345 code to exit.</p>
 
         <div className="exit-code-container">
           <input
             type="password"
-            className="exit-code-input"
+            className={`exit-code-input ${error ? "error" : ""}`}
             placeholder="•••••"
             value={exitCode}
-            onChange={(e) => setExitCode(e.target.value)}
+            onChange={handleInputChange}
             onKeyDown={(e) => e.key === "Enter" && handleExitConfirm()}
             autoFocus
           />
+        </div>
+
+        <div className={`exit-modal-error ${error ? "visible" : ""}`}>
+          Incorrect code! Please try again.
         </div>
 
         <div className="exit-modal-actions">

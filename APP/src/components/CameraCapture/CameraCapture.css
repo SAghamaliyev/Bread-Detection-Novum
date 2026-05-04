@@ -1,7 +1,7 @@
 /* ── CameraCapture styles ─────────────────────────────────────────────────── */
 
 .camera-card {
-  background: var(--surface2);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
@@ -19,8 +19,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(54, 211, 153, 0.1);
-  border: 1px solid rgba(54, 211, 153, 0.22);
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
   border-radius: 20px;
   padding: 4px 10px;
   font-size: 0.68rem;
@@ -52,7 +52,7 @@
 /* ── Viewport ── */
 .camera-viewport {
   position: relative;
-  background: #000;
+  background: #1a1a1a;
   aspect-ratio: 16 / 10;
   overflow: hidden;
   display: flex;
@@ -68,7 +68,6 @@
   display: block;
 }
 
-/* Scanning line — solid color, no gradient */
 .scan-line {
   position: absolute;
   left: 0;
@@ -76,7 +75,7 @@
   height: 2px;
   background: var(--accent);
   animation: scanMove 2.6s ease-in-out infinite;
-  opacity: 0.7;
+  opacity: 0.8;
   z-index: 2;
 }
 
@@ -92,14 +91,13 @@
   }
 }
 
-/* Corner brackets */
 .corner {
   position: absolute;
   width: 18px;
   height: 18px;
   border-color: var(--accent);
   border-style: solid;
-  opacity: 0.85;
+  opacity: 0.9;
   z-index: 3;
 }
 .corner-tl {
@@ -127,7 +125,6 @@
   border-radius: 0 0 3px 0;
 }
 
-/* Idle placeholder */
 .camera-idle {
   display: flex;
   flex-direction: column;
@@ -152,14 +149,13 @@
   opacity: 0.5;
 }
 
-/* Result badge — solid */
 .camera-result-badge {
   position: absolute;
   bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
   background: var(--accent);
-  color: #000;
+  color: #fff;
   font-size: 0.78rem;
   font-weight: 700;
   padding: 5px 14px;
@@ -180,7 +176,6 @@
   }
 }
 
-/* Error message */
 .camera-error {
   font-size: 0.72rem;
   color: var(--accent2);
@@ -188,16 +183,14 @@
   text-align: center;
 }
 
-/* Device selector */
 .camera-device-select {
   width: 100%;
-  background: var(--surface);
+  background: var(--surface2);
   color: var(--text);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 6px 10px;
   font-size: 0.78rem;
-  font-family: "Inter", sans-serif;
   outline: none;
 }
 
@@ -223,7 +216,6 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  font-family: "Inter", sans-serif;
   letter-spacing: 0.2px;
 }
 
@@ -235,22 +227,21 @@
   cursor: not-allowed;
 }
 
-/* Solid primary — no gradient */
 .btn-primary {
   background: var(--accent);
-  color: #000;
+  color: #fff;
 }
 .btn-primary:hover:not(:disabled) {
   opacity: 0.88;
 }
 
 .btn-secondary {
-  background: var(--surface);
+  background: var(--surface2);
   color: var(--text);
   border: 1px solid var(--border);
 }
 .btn-secondary:hover {
-  background: var(--surface2);
+  background: var(--border);
 }
 
 .btn-icon {

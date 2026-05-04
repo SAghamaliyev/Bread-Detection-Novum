@@ -47,7 +47,7 @@ export default function App() {
     <div className="app-shell">
       <header className="header">
         <span className="header-logo">🍞</span>
-        <span className="header-title">BreadTrack AI</span>
+        <span className="header-title">Novum AI</span>
         <span className="header-server-badge">
           <span className="server-dot" /> SERVER CONNECTED
         </span>

@@ -1,7 +1,7 @@
 /* ── CaptureLog styles ───────────────────────────────────────────────────── */
 
 .capture-log {
-  background: var(--surface2);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
@@ -16,7 +16,7 @@
 
 .log-count-badge {
   margin-left: auto;
-  background: rgba(245, 166, 35, 0.15);
+  background: #eff6ff;
   color: var(--accent);
   border-radius: 10px;
   padding: 2px 8px;
@@ -38,7 +38,7 @@
   width: 4px;
 }
 .log-list::-webkit-scrollbar-thumb {
-  background: var(--surface);
+  background: var(--border);
   border-radius: 4px;
 }
 
@@ -47,7 +47,7 @@
   align-items: center;
   gap: 10px;
   padding: 8px 12px;
-  background: var(--surface);
+  background: var(--surface2);
   border-radius: 8px;
   font-size: 0.8rem;
   border: 1px solid var(--border);
@@ -86,7 +86,7 @@
 .log-count {
   font-weight: 700;
   color: var(--accent);
-  background: rgba(245, 166, 35, 0.1);
+  background: #eff6ff;
   padding: 2px 8px;
   border-radius: 8px;
   font-size: 0.78rem;
