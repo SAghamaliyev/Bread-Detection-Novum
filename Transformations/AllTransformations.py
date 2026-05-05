@@ -36,4 +36,3 @@ bbox_params=A.BboxParams(
 ))
 
 AllTransforms = [transform]
-
