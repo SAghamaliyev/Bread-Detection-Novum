@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import "./ExitModal.css";
 
 export default function ExitModal({ isOpen, onClose }) {
   const [exitCode, setExitCode] = useState("");

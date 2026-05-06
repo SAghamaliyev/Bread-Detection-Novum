@@ -1,8 +1,14 @@
 const { app, BrowserWindow, ipcMain, session } = require("electron");
 const { spawn } = require("child_process");
+const fs = require("fs");
+const path = require("path");
+const crypto = require("crypto");
 let forceQuit = false;
 
-const path = require("path");
+// Activation Configuration
+// Activation code is "UFAZ2026"
+const ACTIVATION_HASH = "c2c36d6bcdc0febf0638c019a91a3a5705963cea4cd14734bafbe1609357bacd"; 
+const ACTIVATION_FILE = path.join(app.getPath("userData"), "activation.json");
 // Импортируем функции из твоей БД
 const { getMonthDays, getSummaryStats } = require("../src/db.js");
 
@@ -57,6 +63,33 @@ function createWindow() {
 }
 
 // --- РЕГИСТРАЦИЯ ОБРАБОТЧИКОВ IPC ---
+
+// Activation Handlers
+ipcMain.handle("check-activation", () => {
+  try {
+    if (fs.existsSync(ACTIVATION_FILE)) {
+      const data = JSON.parse(fs.readFileSync(ACTIVATION_FILE, "utf-8"));
+      return data.activated === true;
+    }
+  } catch (err) {
+    console.error("Error checking activation:", err);
+  }
+  return false;
+});
+
+ipcMain.handle("activate-app", (_, code) => {
+  const hash = crypto.createHash("sha256").update(code).digest("hex");
+  if (hash === ACTIVATION_HASH) {
+    try {
+      fs.writeFileSync(ACTIVATION_FILE, JSON.stringify({ activated: true }));
+      return { success: true };
+    } catch (err) {
+      console.error("Error saving activation:", err);
+      return { success: false, error: "Storage error" };
+    }
+  }
+  return { success: false, error: "Invalid activation code" };
+});
 
 // Обработчик платформы (уже был у тебя)
 ipcMain.handle("get-platform", () => process.platform);

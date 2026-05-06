@@ -8,6 +8,7 @@ import StatCard from "./components/StatCard/StatCard";
 import CalendarDashboard from "./components/CalendarDashboard/CalendarDashboard";
 import CaptureLog from "./components/CaptureLog/CaptureLog";
 import ExitModal from "./components/ExitModal/ExitModal";
+import ActivationScreen from "./components/ActivationScreen/ActivationScreen";
 
 const NOW = new Date();
 
@@ -22,8 +23,16 @@ export default function App() {
   const [calYear, setCalYear] = useState(NOW.getFullYear());
   const [calMonth, setCalMonth] = useState(NOW.getMonth());
   const [showExitPrompt, setShowExitPrompt] = useState(false);
+  const [isActivated, setIsActivated] = useState(null); // null = loading
 
   useEffect(() => {
+    // Check activation status
+    if (window.electron && window.electron.checkActivation) {
+      window.electron.checkActivation().then(setIsActivated).catch(() => setIsActivated(false));
+    } else {
+      setIsActivated(true); // Fallback if not in Electron
+    }
+
     getSummaryStats()
       .then((data) => {
         // Defensive check: if data is already in correct format, use it.
@@ -67,6 +76,12 @@ export default function App() {
     setCalYear(y);
     setCalMonth(m);
   }, []);
+
+  if (isActivated === null) return null; // Or a splash screen
+
+  if (!isActivated) {
+    return <ActivationScreen onActivate={() => setIsActivated(true)} />;
+  }
 
   return (
     <div className="app-shell">
